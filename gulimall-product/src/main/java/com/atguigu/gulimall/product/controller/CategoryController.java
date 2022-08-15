@@ -42,44 +42,58 @@ public class CategoryController {
     }
 
 
-        /**
-         * 信息
-         */
-        @RequestMapping("/info/{catId}")
-        public R info (@PathVariable("catId") Long catId){
-            CategoryEntity category = categoryService.getById(catId);
+    /**
+     * 信息
+     */
+    @RequestMapping("/info/{catId}")
+    public R info(@PathVariable("catId") Long catId) {
+        CategoryEntity category = categoryService.getById(catId);
 
-            return R.ok().put("category", category);
-        }
-
-        /**
-         * 保存
-         */
-        @RequestMapping("/save")
-        public R save (@RequestBody CategoryEntity category){
-            categoryService.save(category);
-
-            return R.ok();
-        }
-
-        /**
-         * 修改
-         */
-        @RequestMapping("/update")
-        public R update (@RequestBody CategoryEntity category){
-            categoryService.updateById(category);
-
-            return R.ok();
-        }
-
-        /**
-         * 删除
-         */
-        @RequestMapping("/delete")
-        public R delete (@RequestBody Long[]catIds){
-            categoryService.removeByIds(Arrays.asList(catIds));
-
-            return R.ok();
-        }
-
+        return R.ok().put("data", category);
     }
+
+    /**
+     * 保存
+     */
+    @RequestMapping("/save")
+    public R save(@RequestBody CategoryEntity category) {
+        categoryService.save(category);
+
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping("/update")
+    public R update(@RequestBody CategoryEntity category) {
+        categoryService.updateById(category);
+
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping("/update/save")
+    public R update(@RequestBody CategoryEntity[] category) {
+        categoryService.updateBatchById(Arrays.asList(category));
+
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     *
+     * @RequestBody 根据请求体删除，请求体只有post请求有
+     */
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Long[] catIds) {
+        // 这是物理删除，应该改成逻辑删除
+//            categoryService.removeByIds(Arrays.asList(catIds));
+        categoryService.removeMenusByIds(Arrays.asList(catIds));
+
+        return R.ok();
+    }
+
+}

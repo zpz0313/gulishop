@@ -5,12 +5,26 @@ spring:
         - id: baidu_router
           uri: https://www.baidu.com
           predicates:
-           - Query=url,baidu
+            - Query=url,baidu
 
         - id: qq_router
           uri: https://www.qq.com
           predicates:
             - Query=url,qq
+
+        - id: product_router
+          uri: lb://gulimall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
+
+        - id: thirdparty
+          uri: lb://gulimall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
 
         - id: admin_router
           uri: lb://renren-fast
@@ -18,3 +32,4 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+

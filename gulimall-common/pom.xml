@@ -26,6 +26,14 @@
             <version>1.18.8</version>
         </dependency>
 
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-alicloud-oss &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-alicloud-oss</artifactId>-->
+<!--            <version>2.2.0.RELEASE</version>-->
+<!--        </dependency>-->
+
+
         <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

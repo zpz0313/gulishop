@@ -1,7 +1,10 @@
 package com.atguigu.gulimall.product.service.impl;
 
+import com.atguigu.gulimall.product.entity.AttrGroupEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,6 +49,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return entityList;
     }
 
+
     private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
         List<CategoryEntity> children = all.stream().filter(CategoryEntity -> {
                     return CategoryEntity.getParentCid() == root.getCatId();
@@ -57,6 +61,31 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                     return (menu1.getSort() == null ? 0 : menu1.getSort()) - (menu2.getSort() == null ? 0 : menu2.getSort());
                 }).collect(Collectors.toList());
         return children;
+    }
+
+    @Override
+    public void removeMenusByIds(List<Long> asList) {
+        // TODO 判断是否有其他业务引用该目录，优先处理
+
+        // 逻辑删除菜单目录
+        baseMapper.deleteBatchIds(asList);
+    }
+
+    @Override
+    public Long[] getPathById(Long catelogid) {
+        List<Long> list = new ArrayList<>();
+        list.add(catelogid);
+        getMenus(catelogid, list);
+        Collections.reverse(list);
+        return list.stream().toArray(Long[]::new);
+    }
+
+    public void getMenus(Long catelogid, List<Long> list) {
+        CategoryEntity categoryEntity = baseMapper.selectById(catelogid);
+        if (categoryEntity.getParentCid() != 0) {
+            list.add(categoryEntity.getParentCid());
+            getMenus(categoryEntity.getParentCid(), list);
+        }
     }
 
 }

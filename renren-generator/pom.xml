@@ -30,6 +30,7 @@
 		<mssql.version>4.0</mssql.version>
 		<oracle.version>11.2.0.3</oracle.version>
 		<mongo.version>3.11.0</mongo.version>
+		<property name="javaFileEncoding" value="UTF-8"/>
 	</properties>
 
 	<dependencies>
